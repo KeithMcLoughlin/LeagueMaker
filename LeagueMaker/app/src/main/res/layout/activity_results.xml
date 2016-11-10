@@ -9,4 +9,34 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.keith.leaguemaker.ResultsActivity">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/mainTitle"
+        android:text="Results"
+        android:layout_centerHorizontal="true"
+        android:textSize="50sp" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Result"
+        android:textSize="32sp"
+        android:id="@+id/addResultButton"
+        android:layout_below="@+id/mainTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="104dp"
+        android:background="@color/greenButtonBackground" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="View/Modify Results"
+        android:textSize="30sp"
+        android:id="@+id/viewsResultsButton"
+        android:layout_below="@+id/addResultButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:background="@color/pinkButtonBackground"/>
+
 </RelativeLayout>

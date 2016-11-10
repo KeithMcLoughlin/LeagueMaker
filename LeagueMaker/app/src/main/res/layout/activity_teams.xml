@@ -9,4 +9,34 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.keith.leaguemaker.TeamsActivity">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/mainTitle"
+        android:text="Teams"
+        android:layout_centerHorizontal="true"
+        android:textSize="50sp" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Team"
+        android:textSize="32sp"
+        android:id="@+id/addTeamButton"
+        android:layout_below="@+id/mainTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="104dp"
+        android:background="@color/greenButtonBackground" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="View/Modify Teams"
+        android:textSize="30sp"
+        android:id="@+id/viewTeamsButton"
+        android:layout_below="@+id/addTeamButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:background="@color/pinkButtonBackground"/>
+
 </RelativeLayout>
