@@ -9,6 +9,12 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.keith.leaguemaker.TeamsActivity">
 
+    <ImageButton
+        android:id="@+id/backButton"
+        android:layout_width="60sp"
+        android:layout_height="60sp"
+        android:background="@drawable/back_arrow" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
