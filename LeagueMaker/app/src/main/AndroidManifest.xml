@@ -15,6 +15,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".LeaguesActivity" />
+        <activity android:name=".ResultsActivity" />
+        <activity android:name=".TeamsActivity" />
+        <activity android:name=".AddLeagueActivity" />
+        <activity android:name=".ModifyLeagueActivity" />
+        <activity android:name=".ViewLeaguesActivity" />
+        <activity android:name=".ViewTeamsActivity" />
+        <activity android:name=".AddTeamActivity" />
+        <activity android:name=".ModifyTeamActivity" />
+        <activity android:name=".ViewResultsActivity" />
+        <activity android:name=".AddResultActivity" />
+        <activity android:name=".ModifyResultActivity"></activity>
     </application>
 
 </manifest>
