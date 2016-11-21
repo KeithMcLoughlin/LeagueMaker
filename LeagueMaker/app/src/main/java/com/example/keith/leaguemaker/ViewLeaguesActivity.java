@@ -1,9 +1,10 @@
 package com.example.keith.leaguemaker;
 
+import android.app.ListActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class ViewLeaguesActivity extends AppCompatActivity {
+public class ViewLeaguesActivity extends ListActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
