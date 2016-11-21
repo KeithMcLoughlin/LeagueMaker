@@ -6,5 +6,6 @@
     <color name="greenButtonBackground">#42f442</color>
     <color name="pinkButtonBackground">#e82cac</color>
     <color name="blueButtonBackground">#5fc2ef</color>
+    <color name="redButtonBackground">#f22c00</color>
 
 </resources>
