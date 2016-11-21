@@ -64,11 +64,12 @@
                 android:textSize="30sp"
                 android:id="@+id/sport"/>
 
-            <EditText
-                android:id="@+id/editsport"
-                android:layout_width="0dp"
+            <Spinner
+                android:id="@+id/pickSport"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.75" />
+                android:drawSelectorOnTop="true" />
+
         </LinearLayout>
 
         <LinearLayout
