@@ -9,4 +9,92 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.keith.leaguemaker.AddTeamActivity">
 
+    <ImageButton
+        android:id="@+id/backButton"
+        android:layout_width="60sp"
+        android:layout_height="60sp"
+        android:background="@drawable/back_arrow" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/mainTitle"
+        android:text="Add Team"
+        android:layout_centerHorizontal="true"
+        android:textSize="40sp" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/mainTitle">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="60sp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.25"
+                android:text="Name:"
+                android:textSize="30sp"
+                android:id="@+id/name"/>
+
+            <EditText
+                android:id="@+id/editname"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.75" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20sp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.35"
+                android:text="League:"
+                android:textSize="30sp"
+                android:id="@+id/league"/>
+
+            <EditText
+                android:id="@+id/editleague"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.75" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20sp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.30"
+                android:text="Image:"
+                android:textSize="30sp"
+                android:id="@+id/image"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:text="Enter Team"
+        android:background="@color/greenButtonBackground"
+        android:id="@+id/insertButton"/>
+
 </RelativeLayout>
