@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">LeagueMaker</string>
+    <string-array name="sports">
+        <item>Football</item>
+        <item>Ice Hockey</item>
+        <item>Basketball</item>
+    </string-array>
 </resources>
