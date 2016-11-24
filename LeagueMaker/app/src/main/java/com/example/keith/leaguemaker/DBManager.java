@@ -39,15 +39,17 @@ public class DBManager
     private static final int DATABASE_VERSION 	= 1;
 
     //sql to create database
-    private static final String DATABASE_CREATE =
+    private static final String DATABASE_CREATE_LEAGUE =
             "create table League (_id integer primary key autoincrement, " +
                     "leagueName text unique not null, " +
                     "sport text not null, "  +
-                    "image text);" +
+                    "image text);";
+    private static final String DATABASE_CREATE_TEAM =
             "create table Team (_id integer primary key autoincrement, " +
                     "teamName text unique not null, " +
                     "league text not null, "  +
-                    "image text);" +
+                    "image text);";
+    private static final String DATABASE_CREATE_RESULT =
             "create table Result (_id integer primary key autoincrement, " +
                     "team1 text not null, " +
                     "team2 text not null, "  +
@@ -76,7 +78,9 @@ public class DBManager
         @Override
         public void onCreate(SQLiteDatabase db)
         {
-            db.execSQL(DATABASE_CREATE);
+            db.execSQL(DATABASE_CREATE_LEAGUE);
+            db.execSQL(DATABASE_CREATE_TEAM);
+            db.execSQL(DATABASE_CREATE_RESULT);
         }
 
         @Override
