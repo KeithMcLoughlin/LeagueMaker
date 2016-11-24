@@ -41,11 +41,11 @@ public class DBManager
     //sql to create database
     private static final String DATABASE_CREATE =
             "create table League (_id integer primary key autoincrement, " +
-                    "leagueName text not null, " +
+                    "leagueName text unique not null, " +
                     "sport text not null, "  +
                     "image text);" +
             "create table Team (_id integer primary key autoincrement, " +
-                    "teamName text not null, " +
+                    "teamName text unique not null, " +
                     "league text not null, "  +
                     "image text);" +
             "create table Result (_id integer primary key autoincrement, " +
