@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.Arrays;
 
@@ -33,8 +34,8 @@ public class ViewLeaguesActivity extends ListActivity implements AdapterView.OnI
 
         DBManager dbm = new DBManager(this);
         dbm.open();
+        //get all leagues for spinner
         allLeagues = dbm.getAllLeagues();
-        allTeams = dbm.getAllTeams();
 
         leagues = (Spinner) findViewById(R.id.pickLeague);
         leagues.setOnItemSelectedListener(this);
@@ -46,11 +47,6 @@ public class ViewLeaguesActivity extends ListActivity implements AdapterView.OnI
         spinData.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         leagues.setAdapter(spinData);
 
-        columns = new String[]{"teamName"};
-        to = new int[]{R.id.teamName};
-        teamsCA = new SimpleCursorAdapter(ViewLeaguesActivity.this, R.layout.view_leagues_row, allTeams, columns, to, 0);
-        setListAdapter(teamsCA);
-
         modifyButton = findViewById(R.id.modifyButton);
         modifyButton.setOnClickListener(this);
 
@@ -58,7 +54,20 @@ public class ViewLeaguesActivity extends ListActivity implements AdapterView.OnI
     }
 
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
+        Cursor leagueRow = (Cursor) leagues.getSelectedItem();
+        String league = leagueRow.getString(leagueRow.getColumnIndex("leagueName"));
+        Log.d("leagueName", league);
 
+        DBManager dbm = new DBManager(this);
+        dbm.open();
+        //get all teams for the selected league
+        allTeams = dbm.getLeagueTeams(league);
+
+        columns = new String[]{"teamName"};
+        to = new int[]{R.id.teamName};
+        teamsCA = new SimpleCursorAdapter(ViewLeaguesActivity.this, R.layout.view_leagues_row, allTeams, columns, to, 0);
+        setListAdapter(teamsCA);
+        dbm.close();
     }
 
     public void onNothingSelected(AdapterView<?> parent) {

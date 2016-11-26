@@ -159,6 +159,18 @@ public class DBManager
                 null, null, null, null, null);
     }
 
+    public Cursor getLeagueTeams(String leagueName) throws SQLException
+    {
+        return db.query(DATABASE_TEAM_TABLE, new String[]
+                        {
+                                KEY_ROWID,
+                                KEY_TEAMNAME,
+                                KEY_LEAGUE,
+                                KEY_TEAMIMAGE
+                        },
+                "league=?", new String[]{ leagueName }, null, null, null);
+    }
+
     public Cursor getAllResults() throws SQLException
     {
         return db.query(DATABASE_RESULT_TABLE, new String[]

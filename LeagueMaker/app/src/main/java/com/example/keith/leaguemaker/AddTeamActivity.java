@@ -61,7 +61,7 @@ public class AddTeamActivity extends AppCompatActivity implements AdapterView.On
             Spinner leagueSpinner =(Spinner) findViewById(R.id.pickLeague);
             Cursor leagueRow = (Cursor) leagueSpinner.getSelectedItem();
             league = leagueRow.getString(leagueRow.getColumnIndex("leagueName"));
-            //league = leagueSpinner.getSelectedItem().toString();
+
             //temporary image text
             image = "pathToImage";
             DBManager dbm = new DBManager(this);
