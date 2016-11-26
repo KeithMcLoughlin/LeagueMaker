@@ -12,9 +12,9 @@ import android.widget.Toast;
 
 public class AddTeamActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener{
 
-    Spinner leagues;
-    Cursor allLeagues;
-    View enterButton;
+    private Spinner leagues;
+    private Cursor allLeagues;
+    private View enterButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

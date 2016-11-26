@@ -8,9 +8,9 @@ import android.view.View;
 public class TeamsActivity extends AppCompatActivity implements View.OnClickListener
 {
 
-    View addButton;
-    View viewButton;
-    View backButton;
+    private View addButton;
+    private View viewButton;
+    private View backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -12,8 +12,8 @@ import android.widget.Toast;
 
 public class AddLeagueActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener{
 
-    String[] items = {"Football", "Ice Hockey", "Basketball"};
-    View enterButton;
+    private String[] items = {"Football", "Ice Hockey", "Basketball"};
+    private View enterButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

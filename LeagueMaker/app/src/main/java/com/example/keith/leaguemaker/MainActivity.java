@@ -8,9 +8,9 @@ import android.view.Window;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
-    View leaguesButton;
-    View teamsButton;
-    View resultsButton;
+    private View leaguesButton;
+    private View teamsButton;
+    private View resultsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

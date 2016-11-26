@@ -13,8 +13,8 @@ import android.widget.Spinner;
 
 public class ModifyLeagueActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
-    String[] items = {"Football", "Ice Hockey", "Basketball"};
-    Cursor leagueToBeModified;
+    private String[] items = {"Football", "Ice Hockey", "Basketball"};
+    private Cursor leagueToBeModified;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

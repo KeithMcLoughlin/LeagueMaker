@@ -19,13 +19,13 @@ import java.util.Arrays;
 
 public class ViewLeaguesActivity extends ListActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
-    Spinner leagues;
-    Cursor allLeagues;
-    Cursor allTeams;
-    String[] columns;
-    int[] to;
-    SimpleCursorAdapter teamsCA;
-    View modifyButton;
+    private Spinner leagues;
+    private Cursor allLeagues;
+    private Cursor allTeams;
+    private String[] columns;
+    private int[] to;
+    private SimpleCursorAdapter teamsCA;
+    private View modifyButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
