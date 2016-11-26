@@ -65,12 +65,11 @@
                 android:textSize="30sp"
                 android:id="@+id/league"/>
 
-            <EditText
-                android:id="@+id/editleague"
-                android:layout_width="0dp"
+            <Spinner
+                android:id="@+id/pickLeague"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.75"
-                android:text="League Name"/>
+                />
         </LinearLayout>
 
         <LinearLayout

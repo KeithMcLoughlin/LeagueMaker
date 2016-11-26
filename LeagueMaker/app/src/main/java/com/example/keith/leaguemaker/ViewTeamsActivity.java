@@ -1,11 +1,13 @@
 package com.example.keith.leaguemaker;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 
@@ -59,5 +61,15 @@ public class ViewTeamsActivity extends ListActivity implements AdapterView.OnIte
 
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    protected void onListItemClick(ListView l, View v, int position, long id)
+    {
+        allTeams.moveToPosition(position);
+        int rowID = allTeams.getInt(allTeams.getColumnIndex("_id"));
+
+        Intent changeToModify = new Intent(this, ModifyTeamActivity.class);
+        changeToModify.putExtra("teamRow", rowID);
+        startActivity(changeToModify);
     }
 }
