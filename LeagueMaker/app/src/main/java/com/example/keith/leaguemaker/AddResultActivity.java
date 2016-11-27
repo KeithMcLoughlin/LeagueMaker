@@ -71,11 +71,6 @@ public class AddResultActivity extends AppCompatActivity implements AdapterView.
             team2.setAdapter(spinData2);
 
             dbm.close();
-
-            Log.d("SpinnerLeague", String.valueOf(leagues.getId()));
-            Log.d("SpinnerTeam1", String.valueOf(team1.getId()));
-            Log.d("SpinnerTeam2", String.valueOf(team2.getId()));
-            Log.d("SpinnerInput", String.valueOf(parent.getId()));
         }
     }
 
@@ -88,8 +83,12 @@ public class AddResultActivity extends AppCompatActivity implements AdapterView.
     {
         if(v.getId() == enterButton.getId())
         {
-            String team1name, team2name;
+            String team1name, team2name, league;
             int team1score, team2score;
+
+            Spinner leagueSpinner =(Spinner) findViewById(R.id.pickLeague);
+            Cursor leagueRow = (Cursor) leagueSpinner.getSelectedItem();
+            league = leagueRow.getString(leagueRow.getColumnIndex("leagueName"));
 
             Spinner team1Spinner =(Spinner) findViewById(R.id.pickTeam1);
             Cursor team1Row = (Cursor) team1Spinner.getSelectedItem();
@@ -107,12 +106,12 @@ public class AddResultActivity extends AppCompatActivity implements AdapterView.
 
             DBManager dbm = new DBManager(this);
             dbm.open();
-            dbm.insertResult(team1name, team2name, team1score, team2score);
+            dbm.insertResult(league, team1name, team2name, team1score, team2score);
             dbm.close();
 
             //confirm to user that result was added
             Toast.makeText(this, team1name + " " + team1score + " - " +
-                            team2score + " " + team2name + " added" , (Toast.LENGTH_SHORT)).show();
+                            team2score + " " + team2name + " added to " + league , (Toast.LENGTH_SHORT)).show();
 
             //reset the add result form
             team1scoreET.setText("");

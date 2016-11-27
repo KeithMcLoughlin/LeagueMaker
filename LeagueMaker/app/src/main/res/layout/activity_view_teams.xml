@@ -30,7 +30,8 @@
         android:layout_height="wrap_content"
         android:drawSelectorOnTop="true"
         android:layout_below="@id/mainTitle"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center"/>
 
 
     <ListView xmlns:android="http://schemas.android.com/apk/res/android"

@@ -80,10 +80,13 @@ public class ViewLeaguesActivity extends ListActivity implements AdapterView.OnI
 
     public void onClick(View v) {
         if (v.getId() == modifyButton.getId()) {
-            int position = leagues.getSelectedItemPosition() + 1;
+            //int position = leagues.getSelectedItemPosition() + 1;
+
+            Cursor leagueRow = (Cursor) leagues.getSelectedItem();
+            int row = Integer.parseInt(leagueRow.getString(leagueRow.getColumnIndex("_id")));
 
             Intent changeToModify = new Intent(this, ModifyLeagueActivity.class);
-            changeToModify.putExtra("leagueRow", position);
+            changeToModify.putExtra("leagueRow", row);
             startActivity(changeToModify);
 
         }

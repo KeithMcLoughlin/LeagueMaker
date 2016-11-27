@@ -26,10 +26,11 @@ public class DBManager
     public static final String KEY_TEAMIMAGE 	= "image";
 
     //Result keys
-    public static final String KEY_TEAM1NAME 	= "team1";
-    public static final String KEY_TEAM2NAME 	= "team2";
-    public static final String KEY_TEAM1SCORE 	= "team1score";
-    public static final String KEY_TEAM2SCORE 	= "team2score";
+    public static final String KEY_RESULT_LEAGUE    = "league";
+    public static final String KEY_TEAM1NAME 	    = "team1";
+    public static final String KEY_TEAM2NAME 	    = "team2";
+    public static final String KEY_TEAM1SCORE 	    = "team1score";
+    public static final String KEY_TEAM2SCORE 	    = "team2score";
 
     //database name & table keys
     private static final String DATABASE_NAME 	= "LeagueMaker";
@@ -51,6 +52,7 @@ public class DBManager
                     "image text);";
     private static final String DATABASE_CREATE_RESULT =
             "create table Result (_id integer primary key autoincrement, " +
+                    "league text not null, " +
                     "team1 text not null, " +
                     "team2 text not null, "  +
                     "team1score int not null, " +
@@ -119,9 +121,10 @@ public class DBManager
         return db.insert(DATABASE_TEAM_TABLE, null, initialValues);
     }
 
-    public long insertResult(String team1, String team2, int score1, int score2) throws NullPointerException
+    public long insertResult(String league, String team1, String team2, int score1, int score2) throws NullPointerException
     {
         ContentValues initialValues = new ContentValues();
+        initialValues.put(KEY_RESULT_LEAGUE, league);
         initialValues.put(KEY_TEAM1NAME, team1);
         initialValues.put(KEY_TEAM2NAME, team2);
         initialValues.put(KEY_TEAM1SCORE, score1);
@@ -176,12 +179,27 @@ public class DBManager
         return db.query(DATABASE_RESULT_TABLE, new String[]
                         {
                                 KEY_ROWID,
+                                KEY_RESULT_LEAGUE,
                                 KEY_TEAM1NAME,
                                 KEY_TEAM2NAME,
                                 KEY_TEAM1SCORE,
                                 KEY_TEAM2SCORE,
                         },
                 null, null, null, null, null);
+    }
+
+    public Cursor getLeagueResults(String leagueName) throws SQLException
+    {
+        return db.query(DATABASE_RESULT_TABLE, new String[]
+                        {
+                                KEY_ROWID,
+                                KEY_RESULT_LEAGUE,
+                                KEY_TEAM1NAME,
+                                KEY_TEAM2NAME,
+                                KEY_TEAM1SCORE,
+                                KEY_TEAM2SCORE,
+                        },
+                "league=?", new String[] { leagueName }, null, null, null);
     }
 
     public Cursor getLeague(long rowId) throws SQLException
@@ -228,6 +246,7 @@ public class DBManager
                 db.query(true, DATABASE_RESULT_TABLE, new String[]
                                 {
                                         KEY_ROWID,
+                                        KEY_RESULT_LEAGUE,
                                         KEY_TEAM1NAME,
                                         KEY_TEAM2NAME,
                                         KEY_TEAM1SCORE,
@@ -263,9 +282,10 @@ public class DBManager
                 KEY_ROWID + "=" + rowId, null) > 0;
     }
 
-    public boolean updateResult(long rowId, String team1, String team2, int score1, int score2)
+    public boolean updateResult(long rowId, String league, String team1, String team2, int score1, int score2)
     {
         ContentValues args = new ContentValues();
+        args.put(KEY_RESULT_LEAGUE, league);
         args.put(KEY_TEAM1NAME, team1);
         args.put(KEY_TEAM2NAME, team2);
         args.put(KEY_TEAM1SCORE, score1);
