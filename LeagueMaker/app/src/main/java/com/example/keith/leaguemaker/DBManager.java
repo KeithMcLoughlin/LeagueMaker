@@ -294,6 +294,49 @@ public class DBManager
                 KEY_ROWID + "=" + rowId, null) > 0;
     }
 
+    public void updateResultTeamName(String originalName, String newName)
+    {
+        String teamResultsQuery = "Select * from Result where team1 = '" + originalName + "' OR team2 = '" + originalName + "'";
+        Cursor teamResults = rawQuery(teamResultsQuery);
+
+        String team1, team2, league;
+        int score1, score2, rowId;
+        while (teamResults.moveToNext())
+        {
+            rowId = Integer.parseInt(teamResults.getString(teamResults.getColumnIndex("_id")));
+            team1 = teamResults.getString(teamResults.getColumnIndex("team1"));
+            team2 = teamResults.getString(teamResults.getColumnIndex("team2"));
+            league = teamResults.getString(teamResults.getColumnIndex("league"));
+            score1 = Integer.parseInt(teamResults.getString(teamResults.getColumnIndex("team1score")));
+            score2 = Integer.parseInt(teamResults.getString(teamResults.getColumnIndex("team2score")));
+
+            ContentValues args = new ContentValues();
+            args.put(KEY_RESULT_LEAGUE, league);
+
+            if(team1.equals(originalName))
+            {
+                args.put(KEY_TEAM1NAME, newName);
+                args.put(KEY_TEAM2NAME, team2);
+            }
+            else
+            {
+                args.put(KEY_TEAM1NAME, team1);
+                args.put(KEY_TEAM2NAME, newName);
+            }
+
+            args.put(KEY_TEAM1SCORE, score1);
+            args.put(KEY_TEAM2SCORE, score2);
+
+            executeUpdate(args, rowId);
+        }
+    }
+
+    public boolean executeUpdate(ContentValues args, int rowId)
+    {
+        return db.update(DATABASE_RESULT_TABLE, args,
+                KEY_ROWID + "=" + rowId, null) > 0;
+    }
+
     public Cursor rawQuery (String query)
     {
         Cursor cur = db.rawQuery(query, null);

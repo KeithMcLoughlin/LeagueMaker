@@ -17,8 +17,8 @@ public class ModifyResultActivity extends AppCompatActivity implements AdapterVi
     private Cursor allTeams;
     private Spinner team1, team2;
     private View deleteButton, modifyButton;
-    int rowID;
-    String league;
+    private int rowID;
+    private String league;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
