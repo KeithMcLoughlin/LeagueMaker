@@ -9,12 +9,16 @@ import android.widget.EditText;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class ModifyResultActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+public class ModifyResultActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener{
 
     private Cursor resultToBeModified;
     private Cursor allTeams;
     private Spinner team1, team2;
+    private View deleteButton, modifyButton;
+    int rowID;
+    String league;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,12 +28,13 @@ public class ModifyResultActivity extends AppCompatActivity implements AdapterVi
         DBManager dbm = new DBManager(this);
         dbm.open();
         Bundle passedRow = getIntent().getExtras();
-        String query = "Select * from Result where _id = " + passedRow.getInt("resultRow");
+        rowID = passedRow.getInt("resultRow");
+        String query = "Select * from Result where _id = " + rowID;
 
         resultToBeModified = dbm.rawQuery(query);
         resultToBeModified.moveToFirst();
 
-        String league = resultToBeModified.getString(resultToBeModified.getColumnIndex("league"));
+        league = resultToBeModified.getString(resultToBeModified.getColumnIndex("league"));
         String modifyTeam1 = resultToBeModified.getString(resultToBeModified.getColumnIndex("team1"));
         String modifyTeam2 = resultToBeModified.getString(resultToBeModified.getColumnIndex("team2"));
         String modifyTeam1Score = resultToBeModified.getString(resultToBeModified.getColumnIndex("team1score"));
@@ -83,6 +88,12 @@ public class ModifyResultActivity extends AppCompatActivity implements AdapterVi
         }
         team2.setSelection(position);
 
+        deleteButton = (View)findViewById(R.id.deleteButton);
+        deleteButton.setOnClickListener(this);
+
+        modifyButton = (View)findViewById(R.id.modifyButton);
+        modifyButton.setOnClickListener(this);
+
     }
 
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id)
@@ -93,5 +104,45 @@ public class ModifyResultActivity extends AppCompatActivity implements AdapterVi
     public void onNothingSelected(AdapterView<?> parent)
     {
 
+    }
+
+    public void onClick(View v)
+    {
+        if(v.getId() == modifyButton.getId())
+        {
+            String team1name, team2name;
+            int team1score, team2score;
+
+            Cursor team1Row = (Cursor) team1.getSelectedItem();
+            team1name = team1Row.getString(team1Row.getColumnIndex("teamName"));
+
+            EditText team1scoreET = (EditText)findViewById(R.id.team1score);
+            team1score = Integer.parseInt(team1scoreET.getText().toString());
+
+            EditText team2scoreET = (EditText)findViewById(R.id.team2score);
+            team2score = Integer.parseInt(team2scoreET.getText().toString());
+
+            Cursor team2Row = (Cursor) team2.getSelectedItem();
+            team2name = team2Row.getString(team2Row.getColumnIndex("teamName"));
+
+            DBManager dbm = new DBManager(this);
+            dbm.open();
+            dbm.updateResult(rowID, league, team1name, team2name, team1score, team2score);
+            dbm.close();
+
+            Toast.makeText(this, "Result updated", (Toast.LENGTH_SHORT)).show();
+            finish();
+        }
+
+        if(v.getId() == deleteButton.getId())
+        {
+            DBManager dbm = new DBManager(this);
+            dbm.open();
+            dbm.delete("Result", rowID);
+            dbm.close();
+
+            Toast.makeText(this, "Result deleted", (Toast.LENGTH_SHORT)).show();
+            finish();
+        }
     }
 }

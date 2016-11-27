@@ -94,7 +94,7 @@
             android:layout_weight="40"
             android:text="Change Result"
             android:background="@color/greenButtonBackground"
-            android:id="@+id/insertButton"/>
+            android:id="@+id/modifyButton"/>
 
     </LinearLayout>
 
