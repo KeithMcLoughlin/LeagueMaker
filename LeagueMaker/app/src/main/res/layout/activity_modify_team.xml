@@ -65,11 +65,11 @@
                 android:textSize="30sp"
                 android:id="@+id/league"/>
 
-            <Spinner
-                android:id="@+id/pickLeague"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                />
+                android:id="@+id/leagueName"
+                android:textSize="30sp"/>
         </LinearLayout>
 
         <LinearLayout

@@ -10,17 +10,18 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
-public class ModifyTeamActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener{
+public class ModifyTeamActivity extends AppCompatActivity implements View.OnClickListener{
 
     private Cursor teamToBeModified;
     private Cursor allLeagues;
-    private Spinner leagues;
+    private TextView leagueTV;
     private View deleteButton, modifyButton;
     private EditText teamName;
     private int rowID;
-    private String modifyName;
+    private String modifyName, modifyLeague;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,18 +30,6 @@ public class ModifyTeamActivity extends AppCompatActivity implements AdapterView
 
         DBManager dbm = new DBManager(this);
         dbm.open();
-        //get all leagues for spinner
-        allLeagues = dbm.getAllLeagues();
-
-        leagues = (Spinner) findViewById(R.id.pickLeague);
-        leagues.setOnItemSelectedListener(this);
-
-        String[] spinCol = new String[]{"leagueName"};
-        int[] spinTo = new int[]{android.R.id.text1};
-
-        SimpleCursorAdapter spinData = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, allLeagues, spinCol, spinTo);
-        spinData.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        leagues.setAdapter(spinData);
 
         Bundle passedRow = getIntent().getExtras();
         rowID = passedRow.getInt("teamRow");
@@ -52,36 +41,19 @@ public class ModifyTeamActivity extends AppCompatActivity implements AdapterView
         dbm.close();
 
         modifyName = teamToBeModified.getString(teamToBeModified.getColumnIndex("teamName"));
-        String modifyLeague = teamToBeModified.getString(teamToBeModified.getColumnIndex("league"));
+        modifyLeague = teamToBeModified.getString(teamToBeModified.getColumnIndex("league"));
 
         teamName = (EditText)findViewById(R.id.editname);
         teamName.setText(modifyName);
 
-        int position = 0;
-        for (int i=0; i < leagues.getCount(); i++){
-            Cursor leagueRow = (Cursor) leagues.getItemAtPosition(i);
-            if (leagueRow.getString(leagueRow.getColumnIndex("leagueName")).equals(modifyLeague)){
-                position = i;
-            }
-        }
-
-        leagues.setSelection(position);
+        leagueTV = (TextView)findViewById(R.id.leagueName);
+        leagueTV.setText(modifyLeague);
 
         deleteButton = (View)findViewById(R.id.deleteButton);
         deleteButton.setOnClickListener(this);
 
         modifyButton = (View)findViewById(R.id.modifyButton);
         modifyButton.setOnClickListener(this);
-    }
-
-    public void onItemSelected(AdapterView<?> parent, View v, int position, long id)
-    {
-
-    }
-
-    public void onNothingSelected(AdapterView<?> parent)
-    {
-
     }
 
     public void onClick(View v)
@@ -91,10 +63,7 @@ public class ModifyTeamActivity extends AppCompatActivity implements AdapterView
             String name, league, image;
 
             name = teamName.getText().toString();
-
-            Cursor leagueRow = (Cursor) leagues.getSelectedItem();
-            league = leagueRow.getString(leagueRow.getColumnIndex("leagueName"));
-
+            league = modifyLeague;
             //temporary image text
             image = "pathToImage";
 
