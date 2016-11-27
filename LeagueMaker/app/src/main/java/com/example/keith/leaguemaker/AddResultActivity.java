@@ -3,6 +3,7 @@ package com.example.keith.leaguemaker;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -24,7 +25,6 @@ public class AddResultActivity extends AppCompatActivity implements AdapterView.
         DBManager dbm = new DBManager(this);
         dbm.open();
         allLeagues = dbm.getAllLeagues();
-        allTeams = dbm.getAllTeams();
 
         leagues = (Spinner) findViewById(R.id.pickLeague);
         leagues.setOnItemSelectedListener(this);
@@ -44,32 +44,39 @@ public class AddResultActivity extends AppCompatActivity implements AdapterView.
 
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id)
     {
-        Cursor leagueRow = (Cursor) leagues.getSelectedItem();
-        String league = leagueRow.getString(leagueRow.getColumnIndex("leagueName"));
+        if(parent.getId() == leagues.getId()) {
+            Cursor leagueRow = (Cursor) leagues.getSelectedItem();
+            String league = leagueRow.getString(leagueRow.getColumnIndex("leagueName"));
 
-        DBManager dbm = new DBManager(this);
-        dbm.open();
-        //get all teams for the selected league
-        allTeams = dbm.getLeagueTeams(league);
+            DBManager dbm = new DBManager(this);
+            dbm.open();
+            //get all teams for the selected league
+            allTeams = dbm.getLeagueTeams(league);
 
-        team1 = (Spinner) findViewById(R.id.pickTeam1);
-        team1.setOnItemSelectedListener(this);
+            team1 = (Spinner) findViewById(R.id.pickTeam1);
+            team1.setOnItemSelectedListener(this);
 
-        team2 = (Spinner) findViewById(R.id.pickTeam2);
-        team2.setOnItemSelectedListener(this);
+            team2 = (Spinner) findViewById(R.id.pickTeam2);
+            team2.setOnItemSelectedListener(this);
 
-        String[] spinCol = new String[]{"teamName"};
-        int[] spinTo = new int[]{android.R.id.text1};
+            String[] spinCol = new String[]{"teamName"};
+            int[] spinTo = new int[]{android.R.id.text1};
 
-        SimpleCursorAdapter spinData1 = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, allTeams, spinCol, spinTo);
-        spinData1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        team1.setAdapter(spinData1);
+            SimpleCursorAdapter spinData1 = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, allTeams, spinCol, spinTo);
+            spinData1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            team1.setAdapter(spinData1);
 
-        SimpleCursorAdapter spinData2 = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, allTeams, spinCol, spinTo);
-        spinData2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        team2.setAdapter(spinData2);
+            SimpleCursorAdapter spinData2 = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, allTeams, spinCol, spinTo);
+            spinData2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            team2.setAdapter(spinData2);
 
-        dbm.close();
+            dbm.close();
+
+            Log.d("SpinnerLeague", String.valueOf(leagues.getId()));
+            Log.d("SpinnerTeam1", String.valueOf(team1.getId()));
+            Log.d("SpinnerTeam2", String.valueOf(team2.getId()));
+            Log.d("SpinnerInput", String.valueOf(parent.getId()));
+        }
     }
 
     public void onNothingSelected(AdapterView<?> parent)
@@ -81,24 +88,37 @@ public class AddResultActivity extends AppCompatActivity implements AdapterView.
     {
         if(v.getId() == enterButton.getId())
         {
-//            String name, sport, image;
-//            EditText leagueNameET = (EditText)findViewById(R.id.editname);
-//            name = leagueNameET.getText().toString();
-//            Spinner sportSpinner =(Spinner) findViewById(R.id.pickSport);
-//            sport = sportSpinner.getSelectedItem().toString();
-//            //temporary image text
-//            image = "pathToImage";
-//            DBManager dbm = new DBManager(this);
-//            dbm.open();
-//            dbm.insertLeague(name, sport, image);
-//            dbm.close();
-//
-//            //confirm to user that league was added
-//            Toast.makeText(this, name + " added", (Toast.LENGTH_SHORT)).show();
-//
-//            //reset the add league form
-//            leagueNameET.setText("");
-//            sportSpinner.setSelection(0);
+            String team1name, team2name;
+            int team1score, team2score;
+
+            Spinner team1Spinner =(Spinner) findViewById(R.id.pickTeam1);
+            Cursor team1Row = (Cursor) team1Spinner.getSelectedItem();
+            team1name = team1Row.getString(team1Row.getColumnIndex("teamName"));
+
+            EditText team1scoreET = (EditText)findViewById(R.id.team1score);
+            team1score = Integer.parseInt(team1scoreET.getText().toString());
+
+            EditText team2scoreET = (EditText)findViewById(R.id.team2score);
+            team2score = Integer.parseInt(team2scoreET.getText().toString());
+
+            Spinner team2Spinner =(Spinner) findViewById(R.id.pickTeam2);
+            Cursor team2Row = (Cursor) team2Spinner.getSelectedItem();
+            team2name = team2Row.getString(team2Row.getColumnIndex("teamName"));
+
+            DBManager dbm = new DBManager(this);
+            dbm.open();
+            dbm.insertResult(team1name, team2name, team1score, team2score);
+            dbm.close();
+
+            //confirm to user that result was added
+            Toast.makeText(this, team1name + " " + team1score + " - " +
+                            team2score + " " + team2name + " added" , (Toast.LENGTH_SHORT)).show();
+
+            //reset the add result form
+            team1scoreET.setText("");
+            team2scoreET.setText("");
+            team1Spinner.setSelection(0);
+            team2Spinner.setSelection(0);
         }
     }
 }

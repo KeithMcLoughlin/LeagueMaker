@@ -28,7 +28,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/mainTitle"
-        android:layout_marginTop="60sp"/>
+        android:layout_marginTop="60sp"
+        android:textAlignment="center"/>
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -40,7 +41,8 @@
             android:id="@+id/pickTeam1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="40" />
+            android:layout_weight="40"
+            android:textAlignment="center"/>
 
         <EditText
             android:id="@+id/team1score"
@@ -48,7 +50,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="10"
             android:maxLength="3"
-            android:inputType="number"/>
+            android:inputType="number"
+            android:gravity="center_horizontal"
+            android:ems="2"/>
 
         <EditText
             android:id="@+id/team2score"
@@ -56,13 +60,16 @@
             android:layout_height="wrap_content"
             android:layout_weight="10"
             android:maxLength="3"
-            android:inputType="number"/>
+            android:inputType="number"
+            android:gravity="center_horizontal"
+            android:ems="2"/>
 
         <Spinner
             android:id="@+id/pickTeam2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="40" />
+            android:layout_weight="40"
+            android:textAlignment="center"/>
 
     </LinearLayout>
 
