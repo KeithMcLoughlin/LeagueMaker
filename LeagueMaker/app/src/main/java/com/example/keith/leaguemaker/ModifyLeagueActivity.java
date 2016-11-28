@@ -130,6 +130,18 @@ public class ModifyLeagueActivity extends AppCompatActivity implements AdapterVi
             chooseImage.setDataAndType(data, "image/*");
             startActivityForResult(chooseImage, CHOOSE_IMAGE_ID);
         }
+
+        if(v.getId() == deleteButton.getId())
+        {
+            DBManager dbm = new DBManager(this);
+            dbm.open();
+            dbm.delete("League", leagueRow);
+            dbm.deleteLeagueTeamsAndResults(modifyName);
+            dbm.close();
+
+            Toast.makeText(this, "League deleted", (Toast.LENGTH_SHORT)).show();
+            finish();
+        }
     }
 
     @Override

@@ -61,7 +61,7 @@ public class AddTeamActivity extends AppCompatActivity implements AdapterView.On
         imageButton = (ImageView)findViewById(R.id.teamLogo);
         imageButton.setOnClickListener(this);
 
-        Drawable defaultDrawable = getResources().getDrawable(R.drawable.default_logo);
+        defaultDrawable = getResources().getDrawable(R.drawable.default_logo);
         chosenImage = ((BitmapDrawable)defaultDrawable).getBitmap();
         imageButton.setImageBitmap(chosenImage);
     }

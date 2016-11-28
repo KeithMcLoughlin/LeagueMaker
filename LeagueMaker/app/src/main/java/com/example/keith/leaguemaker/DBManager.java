@@ -393,6 +393,44 @@ public class DBManager
         }
     }
 
+    public void deleteLeagueTeamsAndResults(String league)
+    {
+        String leagueResultsQuery = "Select * from Result where league = '" + league + "'";
+        Cursor leagueResults = rawQuery(leagueResultsQuery);
+
+        int rowId;
+        while (leagueResults.moveToNext())
+        {
+            rowId = Integer.parseInt(leagueResults.getString(leagueResults.getColumnIndex("_id")));
+
+            delete("Result", rowId);
+        }
+
+        String leagueTeamsQuery = "Select * from Team where league = '" + league + "'";
+        Cursor leagueTeams = rawQuery(leagueTeamsQuery);
+
+        while (leagueTeams.moveToNext())
+        {
+            rowId = Integer.parseInt(leagueTeams.getString(leagueTeams.getColumnIndex("_id")));
+
+            delete("Team", rowId);
+        }
+    }
+
+    public void deleteTeamResults(String team)
+    {
+        String teamResultsQuery = "Select * from Result where team1 = '" + team + "' OR team2 = '" + team + "'";
+        Cursor teamResults = rawQuery(teamResultsQuery);
+
+        int rowId;
+        while (teamResults.moveToNext())
+        {
+            rowId = Integer.parseInt(teamResults.getString(teamResults.getColumnIndex("_id")));
+
+            delete("Result", rowId);
+        }
+    }
+
     public boolean executeUpdate(String table, ContentValues args, int rowId)
     {
         return db.update(table, args,

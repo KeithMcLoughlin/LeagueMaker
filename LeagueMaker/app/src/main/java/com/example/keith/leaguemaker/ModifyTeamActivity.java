@@ -110,6 +110,7 @@ public class ModifyTeamActivity extends AppCompatActivity implements View.OnClic
             DBManager dbm = new DBManager(this);
             dbm.open();
             dbm.delete("Team", rowID);
+            dbm.deleteTeamResults(modifyName);
             dbm.close();
 
             Toast.makeText(this, "Team deleted", (Toast.LENGTH_SHORT)).show();

@@ -51,7 +51,7 @@ public class AddLeagueActivity extends AppCompatActivity implements AdapterView.
         imageButton = (ImageView)findViewById(R.id.leagueLogo);
         imageButton.setOnClickListener(this);
 
-        Drawable defaultDrawable = getResources().getDrawable(R.drawable.default_logo);
+        defaultDrawable = getResources().getDrawable(R.drawable.default_logo);
         chosenImage = ((BitmapDrawable)defaultDrawable).getBitmap();
         imageButton.setImageBitmap(chosenImage);
     }
