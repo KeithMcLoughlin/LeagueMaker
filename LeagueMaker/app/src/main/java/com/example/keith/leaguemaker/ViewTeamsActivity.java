@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 public class ViewTeamsActivity extends ListActivity implements AdapterView.OnItemSelectedListener{
 
@@ -51,11 +52,24 @@ public class ViewTeamsActivity extends ListActivity implements AdapterView.OnIte
         dbm.open();
         //get all teams for the selected league
         allTeams = dbm.getLeagueTeams(league);
+        columns = new String[]{};
+        to = new int[]{};
 
-        columns = new String[]{"teamName"};
-        to = new int[]{R.id.teamName};
-        teamsCA = new SimpleCursorAdapter(ViewTeamsActivity.this, R.layout.view_teams_row, allTeams, columns, to, 0);
-        setListAdapter(teamsCA);
+        setListAdapter(new TeamCustomAdapter(ViewTeamsActivity.this, R.layout.view_teams_row, allTeams, columns, to));
+//        columns = new String[]{"teamName"};
+//        to = new int[]{R.id.teamName};
+//        teamsCA = new SimpleCursorAdapter(ViewTeamsActivity.this, R.layout.view_teams_row, allTeams, columns, to, 0);
+//        setListAdapter(teamsCA);
+//
+//        allTeams.moveToFirst();
+//        do{
+//            String team = allTeams.getString(allTeams.getColumnIndex("teamName"));
+//            Cursor results = dbm.getTeamResults(team);
+//            int gamesPlayed = results.getCount();
+//            TextView games = (TextView)findViewById(R.id.gamePlayed);
+//            games.setText(String.valueOf(gamesPlayed));
+//        }
+//        while(allTeams.moveToNext());
         dbm.close();
     }
 

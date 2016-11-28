@@ -226,6 +226,20 @@ public class DBManager
                 "league=?", new String[] { leagueName }, null, null, null);
     }
 
+    public Cursor getTeamResults(String team) throws SQLException
+    {
+        return db.query(DATABASE_RESULT_TABLE, new String[]
+                        {
+                                KEY_ROWID,
+                                KEY_RESULT_LEAGUE,
+                                KEY_TEAM1NAME,
+                                KEY_TEAM2NAME,
+                                KEY_TEAM1SCORE,
+                                KEY_TEAM2SCORE,
+                        },
+                "team1=? OR team2=?", new String[] { team, team }, null, null, null);
+    }
+
     public Cursor getLeague(long rowId) throws SQLException
     {
         return db.query(DATABASE_LEAGUE_TABLE, new String[]
