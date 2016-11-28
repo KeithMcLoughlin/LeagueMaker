@@ -28,7 +28,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/backButton"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginTop="20sp">
+
+        <ImageView
+            android:layout_width="50sp"
+            android:layout_height="50sp"
+            android:id="@+id/leagueImage"
+            android:layout_weight="25" />
 
         <Spinner
             android:id="@+id/pickLeague"
@@ -42,7 +49,7 @@
             android:layout_height="wrap_content"
             android:text="modify"
             android:id="@+id/modifyButton"
-            android:layout_weight="50"/>
+            android:layout_weight="25"/>
 
     </LinearLayout>
 
@@ -51,7 +58,8 @@
         android:layout_height="fill_parent"
         android:cacheColorHint="#00000000"
         android:id="@android:id/list"
-        android:layout_below="@id/pickLeagueRow">
+        android:layout_below="@id/pickLeagueRow"
+        android:layout_marginTop="10sp">
     </ListView>
 
 

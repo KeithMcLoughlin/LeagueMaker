@@ -7,24 +7,40 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/team1name"
-        android:layout_weight="40"/>
+        android:layout_weight="40"
+        android:textSize="30sp"
+        android:textAlignment="center"
+        android:layout_marginTop="10sp"
+        android:layout_marginBottom="10sp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/team1score"
-        android:layout_weight="10"/>
+        android:layout_weight="10"
+        android:textSize="30sp"
+        android:textAlignment="center"
+        android:layout_marginTop="10sp"
+        android:layout_marginBottom="10sp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/team2score"
-        android:layout_weight="10"/>
+        android:layout_weight="10"
+        android:textSize="30sp"
+        android:textAlignment="center"
+        android:layout_marginTop="10sp"
+        android:layout_marginBottom="10sp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/team2name"
-        android:layout_weight="40"/>
+        android:layout_weight="40"
+        android:textSize="30sp"
+        android:textAlignment="center"
+        android:layout_marginTop="10sp"
+        android:layout_marginBottom="10sp"/>
 
 </LinearLayout>

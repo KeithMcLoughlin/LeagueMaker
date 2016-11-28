@@ -7,12 +7,16 @@
 
         android:id="@+id/teamName"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:layout_weight="50" />
 
     <TextView
 
         android:id="@+id/wins"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:layout_weight="10"/>
 
 </LinearLayout>

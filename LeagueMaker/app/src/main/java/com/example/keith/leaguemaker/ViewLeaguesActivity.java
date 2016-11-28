@@ -4,12 +4,14 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
+import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
@@ -26,6 +28,7 @@ public class ViewLeaguesActivity extends ListActivity implements AdapterView.OnI
     private int[] to;
     private SimpleCursorAdapter teamsCA;
     private View modifyButton;
+    private ImageView leagueImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,16 +53,21 @@ public class ViewLeaguesActivity extends ListActivity implements AdapterView.OnI
         modifyButton = findViewById(R.id.modifyButton);
         modifyButton.setOnClickListener(this);
 
+        leagueImage = (ImageView)findViewById(R.id.leagueImage);
+
         dbm.close();
     }
 
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
         Cursor leagueRow = (Cursor) leagues.getSelectedItem();
         String league = leagueRow.getString(leagueRow.getColumnIndex("leagueName"));
-        Log.d("leagueName", league);
+        int row = Integer.parseInt(leagueRow.getString(leagueRow.getColumnIndex("_id")));
 
         DBManager dbm = new DBManager(this);
         dbm.open();
+        Bitmap image = dbm.getLeagueImage(row);
+        leagueImage.setImageBitmap(image);
+
         //get all teams for the selected league
         allTeams = dbm.getLeagueTeams(league);
 
