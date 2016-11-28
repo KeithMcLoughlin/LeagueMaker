@@ -3,10 +3,13 @@ package com.example.keith.leaguemaker;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,9 +18,11 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Arrays;
 
 public class AddLeagueActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener{
 
@@ -26,6 +31,8 @@ public class AddLeagueActivity extends AppCompatActivity implements AdapterView.
     private String[] items = {"Football", "Ice Hockey", "Basketball"};
     private View enterButton;
     private ImageView imageButton;
+    private Bitmap chosenImage, defaultImage;
+    private Drawable defaultDrawable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +50,11 @@ public class AddLeagueActivity extends AppCompatActivity implements AdapterView.
 
         imageButton = (ImageView)findViewById(R.id.leagueLogo);
         imageButton.setOnClickListener(this);
+
+        Log.i("test1", "fine");
+        Drawable defaultDrawable = imageButton.getBackground();
+        chosenImage = ((BitmapDrawable)defaultDrawable).getBitmap();
+        Log.i("test2", "fine again");
     }
 
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id)
@@ -59,13 +71,22 @@ public class AddLeagueActivity extends AppCompatActivity implements AdapterView.
     {
         if(v.getId() == enterButton.getId())
         {
-            String name, sport, image;
+            String name, sport;
+            byte[] image;
+
             EditText leagueNameET = (EditText)findViewById(R.id.editname);
             name = leagueNameET.getText().toString();
             Spinner sportSpinner =(Spinner) findViewById(R.id.pickSport);
             sport = sportSpinner.getSelectedItem().toString();
-            //temporary image text
-            image = "pathToImage";
+
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            //chosenImage.compress(Bitmap.CompressFormat.PNG, 100, bos);
+            //Drawable draw = imageButton.getBackground();
+            //chosenImage = ((BitmapDrawable)draw).getBitmap();
+            chosenImage.compress(Bitmap.CompressFormat.PNG, 100, bos);
+            image = bos.toByteArray();
+            Log.d("byte[]before", Arrays.toString(image));
+
             DBManager dbm = new DBManager(this);
             dbm.open();
             dbm.insertLeague(name, sport, image);
@@ -77,6 +98,7 @@ public class AddLeagueActivity extends AppCompatActivity implements AdapterView.
             //reset the add league form
             leagueNameET.setText("");
             sportSpinner.setSelection(0);
+            imageButton.setImageDrawable(defaultDrawable);
         }
 
         if(v.getId() == imageButton.getId())
@@ -110,7 +132,7 @@ public class AddLeagueActivity extends AppCompatActivity implements AdapterView.
                 {
                     inStream = getContentResolver().openInputStream(imageAddress);
 
-                    Bitmap chosenImage = BitmapFactory.decodeStream(inStream);
+                    chosenImage = BitmapFactory.decodeStream(inStream);
                     imageButton.setImageBitmap(chosenImage);
                 }
                 catch (FileNotFoundException e)

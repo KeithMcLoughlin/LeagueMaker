@@ -87,6 +87,12 @@
                 android:textSize="30sp"
                 android:id="@+id/image"/>
 
+            <ImageButton
+                android:id="@+id/logo"
+                android:layout_width="60sp"
+                android:layout_height="60sp"
+                android:background="@drawable/default_logo"/>
+
         </LinearLayout>
     </LinearLayout>
 

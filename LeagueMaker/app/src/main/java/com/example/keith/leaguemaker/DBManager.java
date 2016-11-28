@@ -3,9 +3,21 @@ package com.example.keith.leaguemaker;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteStatement;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.util.Base64;
+import android.util.Log;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.util.Arrays;
 
 /**
  * Created by Keith on 17/11/2016.
@@ -44,7 +56,7 @@ public class DBManager
             "create table League (_id integer primary key autoincrement, " +
                     "leagueName text unique not null, " +
                     "sport text not null, "  +
-                    "image text);";
+                    "image blob);";
     private static final String DATABASE_CREATE_TEAM =
             "create table Team (_id integer primary key autoincrement, " +
                     "teamName text unique not null, " +
@@ -103,8 +115,17 @@ public class DBManager
         DBHelper.close();
     }
 
-    public long insertLeague(String name, String sport, String image) throws NullPointerException
+    public long insertLeague(String name, String sport, byte[] image) throws NullPointerException
     {
+
+//        String sql                      =   "INSERT INTO League (leagueName,sport,image) VALUES(?,?,?)";
+//        SQLiteStatement insertStmt      =   db.compileStatement(sql);
+//        insertStmt.clearBindings();
+//        insertStmt.bindString(1, name);
+//        insertStmt.bindString(2,sport);
+//        insertStmt.bindBlob(3, image);
+//        insertStmt.executeInsert();
+
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_LEAGUENAME, name);
         initialValues.put(KEY_SPORT, sport);
@@ -144,10 +165,39 @@ public class DBManager
                         {
                                 KEY_ROWID,
                                 KEY_LEAGUENAME,
-                                KEY_SPORT,
-                                KEY_LEAGUEIMAGE
+                                KEY_SPORT
                         },
                 null, null, null, null, null);
+    }
+
+    public Bitmap getLeagueImage(int rowId) throws SQLException
+    {
+//        Cursor leagueRow =
+//                db.query(true, DATABASE_TEAM_TABLE, new String[]
+//                                {
+//                                        KEY_TEAMIMAGE
+//                                },
+//                        KEY_ROWID + "=" + rowId,  null, null, null, null, null);
+        String imageQuery = "Select image from League where rowId = " + rowId;
+        Cursor leagueRow = rawQuery(imageQuery);
+        //Cursor leagueRow = getLeague(rowId);
+//
+        leagueRow.moveToFirst();
+        Log.d("test4", DatabaseUtils.dumpCursorToString(leagueRow));
+
+        byte[] image = leagueRow.getBlob(leagueRow.getColumnIndex("image"));
+        Log.d("byte[]after", Arrays.toString(image));
+
+        //ByteArrayInputStream imageStream = new ByteArrayInputStream(image);
+        //Bitmap leagueImage= BitmapFactory.decodeStream(imageStream);
+        Bitmap leagueImage = BitmapFactory.decodeByteArray(image, 0, image.length);
+
+//        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+//        leagueImage.compress(Bitmap.CompressFormat.PNG, 100, bos);
+//        image = bos.toByteArray();
+//        Log.d("byte[]after2", Arrays.toString(image));
+
+        return leagueImage;
     }
 
     public Cursor getAllTeams() throws SQLException
@@ -204,21 +254,13 @@ public class DBManager
 
     public Cursor getLeague(long rowId) throws SQLException
     {
-        Cursor mCursor =
-                db.query(true, DATABASE_LEAGUE_TABLE, new String[]
-                                {
-                                        KEY_ROWID,
-                                        KEY_LEAGUENAME,
-                                        KEY_SPORT,
-                                        KEY_LEAGUEIMAGE
-                                },
-                        KEY_ROWID + "=" + rowId,  null, null, null, null, null);
-
-        if (mCursor != null)
-        {
-            mCursor.moveToFirst();
-        }
-        return mCursor;
+        return db.query(DATABASE_LEAGUE_TABLE, new String[]
+                        {
+                                KEY_ROWID,
+                                KEY_LEAGUENAME,
+                                KEY_SPORT
+                        },
+                "_id=" + rowId, null, null, null, null);
     }
 
     public Cursor getTeam(long rowId) throws SQLException
