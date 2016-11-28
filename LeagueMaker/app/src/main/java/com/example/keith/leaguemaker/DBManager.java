@@ -278,7 +278,7 @@ public class DBManager
     }
 
 
-    public boolean updateLeague(long rowId, String name, String sport, String image)
+    public boolean updateLeague(long rowId, String name, String sport, byte[] image)
     {
         ContentValues args = new ContentValues();
         args.put(KEY_LEAGUENAME, name);
@@ -288,7 +288,7 @@ public class DBManager
                 KEY_ROWID + "=" + rowId, null) > 0;
     }
 
-    public boolean updateTeam(long rowId, String name, String league, String image)
+    public boolean updateTeam(long rowId, String name, String league, byte[] image)
     {
         ContentValues args = new ContentValues();
         args.put(KEY_TEAMNAME, name);
@@ -343,13 +343,59 @@ public class DBManager
             args.put(KEY_TEAM1SCORE, score1);
             args.put(KEY_TEAM2SCORE, score2);
 
-            executeUpdate(args, rowId);
+            executeUpdate("Result", args, rowId);
         }
     }
 
-    public boolean executeUpdate(ContentValues args, int rowId)
+    public void updateLeagueName(String orgleague, String league)
     {
-        return db.update(DATABASE_RESULT_TABLE, args,
+        String leagueResultsQuery = "Select * from Result where league = '" + orgleague + "'";
+        Cursor leagueResults = rawQuery(leagueResultsQuery);
+
+        String team1, team2;
+        int score1, score2, rowId;
+        while (leagueResults.moveToNext())
+        {
+            rowId = Integer.parseInt(leagueResults.getString(leagueResults.getColumnIndex("_id")));
+            team1 = leagueResults.getString(leagueResults.getColumnIndex("team1"));
+            team2 = leagueResults.getString(leagueResults.getColumnIndex("team2"));
+            score1 = Integer.parseInt(leagueResults.getString(leagueResults.getColumnIndex("team1score")));
+            score2 = Integer.parseInt(leagueResults.getString(leagueResults.getColumnIndex("team2score")));
+
+            ContentValues args = new ContentValues();
+            args.put(KEY_RESULT_LEAGUE, league);
+            args.put(KEY_TEAM1NAME, team1);
+            args.put(KEY_TEAM2NAME, team2);
+            args.put(KEY_TEAM1SCORE, score1);
+            args.put(KEY_TEAM2SCORE, score2);
+
+            executeUpdate("Result", args, rowId);
+        }
+
+        String leagueTeamsQuery = "Select * from Team where league = '" + orgleague + "'";
+        Cursor leagueTeams = rawQuery(leagueTeamsQuery);
+
+        String teamName;
+        byte[] image;
+        int rowID;
+        while (leagueTeams.moveToNext())
+        {
+            rowId = Integer.parseInt(leagueTeams.getString(leagueTeams.getColumnIndex("_id")));
+            teamName = leagueTeams.getString(leagueTeams.getColumnIndex("teamName"));
+            image = leagueTeams.getBlob(leagueTeams.getColumnIndex("image"));
+
+            ContentValues args = new ContentValues();
+            args.put(KEY_TEAMNAME, teamName);
+            args.put(KEY_LEAGUE, league);
+            args.put(KEY_TEAMIMAGE, image);
+
+            executeUpdate("Team", args, rowId);
+        }
+    }
+
+    public boolean executeUpdate(String table, ContentValues args, int rowId)
+    {
+        return db.update(table, args,
                 KEY_ROWID + "=" + rowId, null) > 0;
     }
 

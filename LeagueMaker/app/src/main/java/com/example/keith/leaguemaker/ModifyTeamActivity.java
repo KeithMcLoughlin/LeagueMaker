@@ -19,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -80,12 +81,15 @@ public class ModifyTeamActivity extends AppCompatActivity implements View.OnClic
     {
         if(v.getId() == modifyButton.getId())
         {
-            String name, league, image;
+            String name, league;
+            byte[] image;
 
             name = teamName.getText().toString();
             league = modifyLeague;
-            //temporary image text
-            image = "pathToImage";
+
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            teamLogo.compress(Bitmap.CompressFormat.PNG, 100, bos);
+            image = bos.toByteArray();
 
             DBManager dbm = new DBManager(this);
             dbm.open();

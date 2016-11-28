@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -30,7 +31,11 @@ public class ModifyLeagueActivity extends AppCompatActivity implements AdapterVi
     private String[] items = {"Football", "Ice Hockey", "Basketball"};
     private Cursor leagueToBeModified;
     private Bitmap leagueLogo;
+    private View deleteButton, modifyButton;
     private ImageButton imageButton;
+    private String modifyName, modifySport;
+    private int leagueRow;
+    private EditText leagueName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +52,7 @@ public class ModifyLeagueActivity extends AppCompatActivity implements AdapterVi
         Bundle passedRow = getIntent().getExtras();
         DBManager dbm = new DBManager(this);
         dbm.open();
-        int leagueRow = passedRow.getInt("leagueRow");
+        leagueRow = passedRow.getInt("leagueRow");
 
         leagueToBeModified = dbm.getLeague(leagueRow);
         leagueToBeModified.moveToFirst();
@@ -55,10 +60,10 @@ public class ModifyLeagueActivity extends AppCompatActivity implements AdapterVi
         leagueLogo = dbm.getImage("League", leagueRow);
         dbm.close();
 
-        String modifyName = leagueToBeModified.getString(leagueToBeModified.getColumnIndex("leagueName"));
-        String modifySport = leagueToBeModified.getString(leagueToBeModified.getColumnIndex("sport"));
+        modifyName = leagueToBeModified.getString(leagueToBeModified.getColumnIndex("leagueName"));
+        modifySport = leagueToBeModified.getString(leagueToBeModified.getColumnIndex("sport"));
 
-        EditText leagueName = (EditText)findViewById(R.id.editname);
+        leagueName = (EditText)findViewById(R.id.editname);
         leagueName.setText(modifyName);
         int pos = spinData.getPosition(modifySport);
         sports.setSelection(pos);
@@ -66,6 +71,12 @@ public class ModifyLeagueActivity extends AppCompatActivity implements AdapterVi
         imageButton = (ImageButton)findViewById(R.id.logo);
         imageButton.setOnClickListener(this);
         imageButton.setImageBitmap(leagueLogo);
+
+        deleteButton = (View)findViewById(R.id.deleteButton);
+        deleteButton.setOnClickListener(this);
+
+        modifyButton = (View)findViewById(R.id.modifyButton);
+        modifyButton.setOnClickListener(this);
     }
 
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id)
@@ -80,6 +91,32 @@ public class ModifyLeagueActivity extends AppCompatActivity implements AdapterVi
 
     public void onClick(View v)
     {
+        if(v.getId() == modifyButton.getId())
+        {
+            String name, sport;
+            byte[] image;
+
+            name = leagueName.getText().toString();
+            sport = modifySport;
+
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            leagueLogo.compress(Bitmap.CompressFormat.PNG, 100, bos);
+            image = bos.toByteArray();
+
+            DBManager dbm = new DBManager(this);
+            dbm.open();
+            dbm.updateLeague(leagueRow, name, sport, image);
+            //if team name changed
+            if(modifyName != name)
+            {
+                dbm.updateLeagueName(modifyName, name);
+            }
+            dbm.close();
+
+            Toast.makeText(this, "League updated", (Toast.LENGTH_SHORT)).show();
+            finish();
+        }
+
         if(v.getId() == imageButton.getId())
         {
             //invoke an intent for picking data
