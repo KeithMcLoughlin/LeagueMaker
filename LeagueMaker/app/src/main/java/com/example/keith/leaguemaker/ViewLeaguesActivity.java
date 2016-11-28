@@ -71,10 +71,14 @@ public class ViewLeaguesActivity extends ListActivity implements AdapterView.OnI
         //get all teams for the selected league
         allTeams = dbm.getLeagueTeams(league);
 
-        columns = new String[]{"teamName"};
-        to = new int[]{R.id.teamName};
-        teamsCA = new SimpleCursorAdapter(ViewLeaguesActivity.this, R.layout.view_leagues_row, allTeams, columns, to, 0);
-        setListAdapter(teamsCA);
+        columns = new String[]{};
+        to = new int[]{};
+
+        setListAdapter(new LeagueCustomAdapter(ViewLeaguesActivity.this, R.layout.view_leagues_row, allTeams, columns, to));
+//        columns = new String[]{"teamName"};
+//        to = new int[]{R.id.teamName};
+//        teamsCA = new SimpleCursorAdapter(ViewLeaguesActivity.this, R.layout.view_leagues_row, allTeams, columns, to, 0);
+//        setListAdapter(teamsCA);
         dbm.close();
     }
 

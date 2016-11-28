@@ -240,6 +240,23 @@ public class DBManager
                 "team1=? OR team2=?", new String[] { team, team }, null, null, null);
     }
 
+    public int getTeamWins(String team) throws SQLException
+    {
+        int homeWins, awayWins;
+
+        String teamHomeQuery = "Select * from Result where team1 = '" + team + "' AND team1score > team2score";
+        Cursor teamHome = rawQuery(teamHomeQuery);
+
+        homeWins = teamHome.getCount();
+
+        String teamAwayQuery = "Select * from Result where team2 = '" + team + "' AND team2score > team1score";
+        Cursor teamAway = rawQuery(teamAwayQuery);
+
+        awayWins = teamAway.getCount();
+
+        return homeWins + awayWins;
+    }
+
     public Cursor getLeague(long rowId) throws SQLException
     {
         return db.query(DATABASE_LEAGUE_TABLE, new String[]
