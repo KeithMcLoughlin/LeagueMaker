@@ -21,7 +21,8 @@
         android:id="@+id/mainTitle"
         android:text="Add Result"
         android:layout_centerHorizontal="true"
-        android:textSize="40sp" />
+        android:textSize="40sp"
+        android:layout_marginLeft="10sp"/>
 
     <Spinner
         android:id="@+id/pickLeague"

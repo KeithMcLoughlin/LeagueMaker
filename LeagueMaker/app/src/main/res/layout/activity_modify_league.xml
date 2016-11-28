@@ -39,7 +39,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.25"
+                android:layout_weight="0.30"
                 android:text="Name:"
                 android:textSize="30sp"
                 android:id="@+id/name"/>
@@ -48,7 +48,7 @@
                 android:id="@+id/editname"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.75"
+                android:layout_weight="0.70"
                 android:text=""/>
         </LinearLayout>
 
@@ -66,11 +66,11 @@
                 android:textSize="30sp"
                 android:id="@+id/sport"/>
 
-            <Spinner
-                android:id="@+id/pickSport"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawSelectorOnTop="true" />
+                android:id="@+id/sportName"
+                android:textSize="30sp"/>
         </LinearLayout>
 
         <LinearLayout

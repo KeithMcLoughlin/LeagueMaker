@@ -21,7 +21,8 @@
         android:id="@+id/mainTitle"
         android:text="Add League"
         android:layout_centerHorizontal="true"
-        android:textSize="40sp" />
+        android:textSize="40sp"
+        android:layout_marginLeft="10sp"/>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
@@ -38,7 +39,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.25"
+                android:layout_weight="0.30"
                 android:text="Name:"
                 android:textSize="30sp"
                 android:id="@+id/name"/>
@@ -47,7 +48,7 @@
                 android:id="@+id/editname"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.75" />
+                android:layout_weight="0.70" />
         </LinearLayout>
 
         <LinearLayout

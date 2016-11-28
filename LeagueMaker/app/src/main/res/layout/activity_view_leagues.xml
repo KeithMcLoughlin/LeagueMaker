@@ -21,7 +21,8 @@
         android:id="@+id/mainTitle"
         android:text="View Leagues"
         android:layout_toEndOf="@id/backButton"
-        android:textSize="40sp" />
+        android:textSize="40sp"
+        android:layout_marginLeft="10sp"/>
 
     <LinearLayout
         android:id="@+id/pickLeagueRow"

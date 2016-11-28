@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
@@ -24,7 +25,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Arrays;
 
-public class ModifyLeagueActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener{
+public class ModifyLeagueActivity extends AppCompatActivity implements View.OnClickListener{
 
     public static final int CHOOSE_IMAGE_ID = 20;
 
@@ -36,18 +37,12 @@ public class ModifyLeagueActivity extends AppCompatActivity implements AdapterVi
     private String modifyName, modifySport;
     private int leagueRow;
     private EditText leagueName;
+    private TextView sportTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modify_league);
-
-        Spinner sports = (Spinner)findViewById(R.id.pickSport);
-        sports.setOnItemSelectedListener(this);
-
-        ArrayAdapter<String> spinData = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, items);
-        spinData.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sports.setAdapter(spinData);
 
         Bundle passedRow = getIntent().getExtras();
         DBManager dbm = new DBManager(this);
@@ -65,8 +60,10 @@ public class ModifyLeagueActivity extends AppCompatActivity implements AdapterVi
 
         leagueName = (EditText)findViewById(R.id.editname);
         leagueName.setText(modifyName);
-        int pos = spinData.getPosition(modifySport);
-        sports.setSelection(pos);
+//        int pos = spinData.getPosition(modifySport);
+//        sports.setSelection(pos);
+        sportTV = (TextView)findViewById(R.id.sportName);
+        sportTV.setText(modifySport);
 
         imageButton = (ImageButton)findViewById(R.id.logo);
         imageButton.setOnClickListener(this);
@@ -77,16 +74,6 @@ public class ModifyLeagueActivity extends AppCompatActivity implements AdapterVi
 
         modifyButton = (View)findViewById(R.id.modifyButton);
         modifyButton.setOnClickListener(this);
-    }
-
-    public void onItemSelected(AdapterView<?> parent, View v, int position, long id)
-    {
-
-    }
-
-    public void onNothingSelected(AdapterView<?> parent)
-    {
-
     }
 
     public void onClick(View v)
