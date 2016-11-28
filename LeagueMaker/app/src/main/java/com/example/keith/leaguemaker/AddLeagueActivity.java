@@ -51,10 +51,8 @@ public class AddLeagueActivity extends AppCompatActivity implements AdapterView.
         imageButton = (ImageView)findViewById(R.id.leagueLogo);
         imageButton.setOnClickListener(this);
 
-        Log.i("test1", "fine");
         Drawable defaultDrawable = imageButton.getBackground();
         chosenImage = ((BitmapDrawable)defaultDrawable).getBitmap();
-        Log.i("test2", "fine again");
     }
 
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id)
@@ -80,12 +78,8 @@ public class AddLeagueActivity extends AppCompatActivity implements AdapterView.
             sport = sportSpinner.getSelectedItem().toString();
 
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            //chosenImage.compress(Bitmap.CompressFormat.PNG, 100, bos);
-            //Drawable draw = imageButton.getBackground();
-            //chosenImage = ((BitmapDrawable)draw).getBitmap();
             chosenImage.compress(Bitmap.CompressFormat.PNG, 100, bos);
             image = bos.toByteArray();
-            Log.d("byte[]before", Arrays.toString(image));
 
             DBManager dbm = new DBManager(this);
             dbm.open();

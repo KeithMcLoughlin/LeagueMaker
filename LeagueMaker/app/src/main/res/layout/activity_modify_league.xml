@@ -89,8 +89,8 @@
 
             <ImageButton
                 android:id="@+id/logo"
-                android:layout_width="60sp"
-                android:layout_height="60sp"
+                android:layout_width="150sp"
+                android:layout_height="150sp"
                 android:background="@drawable/default_logo"/>
 
         </LinearLayout>

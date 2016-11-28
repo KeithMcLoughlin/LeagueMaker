@@ -1,6 +1,11 @@
 package com.example.keith.leaguemaker;
 
+import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,12 +13,19 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
 public class ModifyTeamActivity extends AppCompatActivity implements View.OnClickListener{
+
+    public static final int CHOOSE_IMAGE_ID = 20;
 
     private Cursor teamToBeModified;
     private Cursor allLeagues;
@@ -22,6 +34,8 @@ public class ModifyTeamActivity extends AppCompatActivity implements View.OnClic
     private EditText teamName;
     private int rowID;
     private String modifyName, modifyLeague;
+    private Bitmap teamLogo;
+    private ImageButton imageButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +51,8 @@ public class ModifyTeamActivity extends AppCompatActivity implements View.OnClic
 
         teamToBeModified = dbm.rawQuery(query);
         teamToBeModified.moveToFirst();
+
+        teamLogo = dbm.getImage("Team", rowID);
 
         dbm.close();
 
@@ -54,6 +70,10 @@ public class ModifyTeamActivity extends AppCompatActivity implements View.OnClic
 
         modifyButton = (View)findViewById(R.id.modifyButton);
         modifyButton.setOnClickListener(this);
+
+        imageButton = (ImageButton)findViewById(R.id.logo);
+        imageButton.setOnClickListener(this);
+        imageButton.setImageBitmap(teamLogo);
     }
 
     public void onClick(View v)
@@ -90,6 +110,47 @@ public class ModifyTeamActivity extends AppCompatActivity implements View.OnClic
 
             Toast.makeText(this, "Team deleted", (Toast.LENGTH_SHORT)).show();
             finish();
+        }
+
+        if(v.getId() == imageButton.getId())
+        {
+            //invoke an intent for picking data
+            Intent chooseImage = new Intent(Intent.ACTION_PICK);
+            //choosing the type of data
+            File choosenImageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+            String path = choosenImageDir.getPath();
+            Uri data = Uri.parse(path);
+
+            //setting the intent to choose from the data type
+            chooseImage.setDataAndType(data, "image/*");
+            startActivityForResult(chooseImage, CHOOSE_IMAGE_ID);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int id, int result, Intent data) {
+        //check if anything went wrong
+        if(result == RESULT_OK)
+        {
+            //check if its the choose image activity
+            if(id == CHOOSE_IMAGE_ID)
+            {
+                Uri imageAddress = data.getData();
+                //used to read image data
+                InputStream inStream;
+
+                try
+                {
+                    inStream = getContentResolver().openInputStream(imageAddress);
+
+                    teamLogo = BitmapFactory.decodeStream(inStream);
+                    imageButton.setImageBitmap(teamLogo);
+                }
+                catch (FileNotFoundException e)
+                {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }

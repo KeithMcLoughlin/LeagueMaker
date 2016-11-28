@@ -48,17 +48,11 @@ public class ModifyLeagueActivity extends AppCompatActivity implements AdapterVi
         DBManager dbm = new DBManager(this);
         dbm.open();
         int leagueRow = passedRow.getInt("leagueRow");
-        Log.d("test1", String.valueOf(leagueRow));
+
         leagueToBeModified = dbm.getLeague(leagueRow);
-
-
-//        String query = "Select * from League where _id = " + passedRow.getInt("leagueRow");
-//        leagueToBeModified = dbm.rawQuery("Select * from League where _id = " + passedRow.getInt("leagueRow"));
         leagueToBeModified.moveToFirst();
-        Log.d("test2", DatabaseUtils.dumpCursorToString(leagueToBeModified));
 
-        leagueLogo = dbm.getLeagueImage(leagueRow);
-        Log.d("test3", "fine again again");
+        leagueLogo = dbm.getImage("League", leagueRow);
         dbm.close();
 
         String modifyName = leagueToBeModified.getString(leagueToBeModified.getColumnIndex("leagueName"));

@@ -65,7 +65,7 @@ public class ViewLeaguesActivity extends ListActivity implements AdapterView.OnI
 
         DBManager dbm = new DBManager(this);
         dbm.open();
-        Bitmap image = dbm.getLeagueImage(row);
+        Bitmap image = dbm.getImage("League", row);
         leagueImage.setImageBitmap(image);
 
         //get all teams for the selected league

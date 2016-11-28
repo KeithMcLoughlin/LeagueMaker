@@ -61,7 +61,7 @@ public class DBManager
             "create table Team (_id integer primary key autoincrement, " +
                     "teamName text unique not null, " +
                     "league text not null, "  +
-                    "image text);";
+                    "image blob);";
     private static final String DATABASE_CREATE_RESULT =
             "create table Result (_id integer primary key autoincrement, " +
                     "league text not null, " +
@@ -117,15 +117,6 @@ public class DBManager
 
     public long insertLeague(String name, String sport, byte[] image) throws NullPointerException
     {
-
-//        String sql                      =   "INSERT INTO League (leagueName,sport,image) VALUES(?,?,?)";
-//        SQLiteStatement insertStmt      =   db.compileStatement(sql);
-//        insertStmt.clearBindings();
-//        insertStmt.bindString(1, name);
-//        insertStmt.bindString(2,sport);
-//        insertStmt.bindBlob(3, image);
-//        insertStmt.executeInsert();
-
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_LEAGUENAME, name);
         initialValues.put(KEY_SPORT, sport);
@@ -133,7 +124,7 @@ public class DBManager
         return db.insert(DATABASE_LEAGUE_TABLE, null, initialValues);
     }
 
-    public long insertTeam(String name, String league, String image) throws NullPointerException
+    public long insertTeam(String name, String league, byte[] image) throws NullPointerException
     {
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_TEAMNAME, name);
@@ -170,34 +161,17 @@ public class DBManager
                 null, null, null, null, null);
     }
 
-    public Bitmap getLeagueImage(int rowId) throws SQLException
+    public Bitmap getImage(String table, int rowId) throws SQLException
     {
-//        Cursor leagueRow =
-//                db.query(true, DATABASE_TEAM_TABLE, new String[]
-//                                {
-//                                        KEY_TEAMIMAGE
-//                                },
-//                        KEY_ROWID + "=" + rowId,  null, null, null, null, null);
-        String imageQuery = "Select image from League where rowId = " + rowId;
-        Cursor leagueRow = rawQuery(imageQuery);
-        //Cursor leagueRow = getLeague(rowId);
-//
-        leagueRow.moveToFirst();
-        Log.d("test4", DatabaseUtils.dumpCursorToString(leagueRow));
+        String imageQuery = "Select image from " + table + " where _id = " + rowId;
+        Cursor tableRow = rawQuery(imageQuery);
 
-        byte[] image = leagueRow.getBlob(leagueRow.getColumnIndex("image"));
-        Log.d("byte[]after", Arrays.toString(image));
+        tableRow.moveToFirst();
 
-        //ByteArrayInputStream imageStream = new ByteArrayInputStream(image);
-        //Bitmap leagueImage= BitmapFactory.decodeStream(imageStream);
-        Bitmap leagueImage = BitmapFactory.decodeByteArray(image, 0, image.length);
+        byte[] image = tableRow.getBlob(tableRow.getColumnIndex("image"));
+        Bitmap rowImage = BitmapFactory.decodeByteArray(image, 0, image.length);
 
-//        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-//        leagueImage.compress(Bitmap.CompressFormat.PNG, 100, bos);
-//        image = bos.toByteArray();
-//        Log.d("byte[]after2", Arrays.toString(image));
-
-        return leagueImage;
+        return rowImage;
     }
 
     public Cursor getAllTeams() throws SQLException
