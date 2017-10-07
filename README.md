@@ -18,7 +18,7 @@ Class Diagram:
 
 Screens:
 Main Menu:
-![ScreenShot](https://raw.github.com/KeithMcLoughlin/LeagueMaker/master/Screenshots/Main Screen.png)
+![ScreenShot](https://raw.github.com/KeithMcLoughlin/LeagueMaker/master/Screenshots/Main%20Screen.png)
 This will be the main menu where each of the buttons will go to the corresponding menu option screens below.
 
 Menu Options:
